@@ -5,7 +5,50 @@ public class Main {
         Scanner in = new Scanner(System.in);
         ArrayList<String> myArrList = new ArrayList<>();
         String action;
-
+        boolean YorN = false;
+        String addValue;
+        String insertValue;
+        int insertPlace;
+        int delPlace;
+        String menuResponse;
+        System.out.println("Hello! Welcome to myListMaker! You can make changes to your new list now!");
+        do {
+            printList(myArrList);
+            System.out.println();
+            menuResponse = getMenuResponse(in);
+            if (menuResponse.equals("A") || menuResponse.equals("a")) {
+                System.out.println("Enter the string you would like to add.");
+                addValue = in.next();
+                in.nextLine();
+                addItem(myArrList, addValue);
+            }
+            else if (menuResponse.equals("D") || menuResponse.equals("d")) {
+                for (int i = 0; i < myArrList.size(); i++) {
+                    System.out.print("(" + (i + 1) + ". " + myArrList.get(i) + ") ");
+                }
+                delPlace = SafeInput.getRangedInt(in, "Enter the place of the item you would like to remove.", 1, myArrList.size());
+                myArrList = delItem(myArrList, (delPlace - 1));
+            }
+            else if (menuResponse.equals("I") || menuResponse.equals("i")) {
+                insertPlace = SafeInput.getRangedInt(in, "Enter the place of where you want to add the new item", 1, myArrList.size());
+                System.out.println("Enter what value you want to add.");
+                insertValue = in.next();
+                in.nextLine();
+                insertItem(myArrList, insertValue, insertPlace);
+            }
+            else if (menuResponse.equals("P") || menuResponse.equals("p")) {
+                printList(myArrList);
+            }
+            else if (menuResponse.equals("Q") || menuResponse.equals("q")) {
+                if (SafeInput.getYNConfirm(in, "Are you sure you'd like to quit?")) {
+                    YorN = true;
+                    System.out.println("Bye!");
+                }
+                else {
+                    System.out.println("Oops!");
+                }
+            }
+        } while (!YorN);
     }
     private static String getMenuResponse(Scanner pipe){
         System.out.println("Enter A/a add an item, D/d to delete an item, I/i to insert an item, P/p to print the list, and enter Q/q to quit.");
@@ -38,10 +81,13 @@ public class Main {
         return newList;
     }
     private static ArrayList<String> insertItem (ArrayList<String> myList, String newItem, int newPlace) {
-         myList.add(newPlace - 1, newItem);
-         return myList;
+        myList.add(newPlace - 1, newItem);
+        return myList;
     }
     private static void printList (ArrayList<String> myList) {
-        for (int i = 0; i < myList.size(); i++)
+        for (int i = 0; i < myList.size(); i++) {
+            System.out.print(myList.get(i) + " ");
+        }
+        System.out.println();
     }
 }
